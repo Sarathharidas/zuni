@@ -12,6 +12,11 @@ import csv
 #from werkzeug import secure_filename
 #from removing_substring_logic import process_string
 
+import os
+import shutil
+
+
+
 ### These are Hard coded
 # l = 'afrikaans'
 # folder = '/Users/sarathharidas/Desktop/zuni test/Batch01/Stories'
@@ -26,22 +31,39 @@ import csv
 ## 3. Write the files back to same folder structure and also to a new database
 ## 4. While translating use the conditions provided
 
-
 class csv_file_translate:
     
-    def __init__(self, batch_folder_location, language_code):
-       self.location = batch_folder_location
-       self.language_code = language_code
+    def __init__(self, batch_source_folder_location, language):
+       self.source_folder = batch_source_folder_location
+       language_dict = {'afrikaans' : 'af', 'zulu' : 'zu', 'swahili': 'sw'}
+       self.language = language
+       self.language_code = language_dict[language]
     
+    ### Used for reading the file
     def read_first_row(csv_file):
       with open(csv_file, 'r') as file:
         csv_reader = csv.reader(file)
         first_row = next(csv_reader)
         return first_row
     
-p = csv_file_translate('abc', 'cef')
-p.print()
-        
+    #### This function is used for creating the same folder structure
+    def create_destination_folder_structure(self):
+      new_folder_path = self.source_folder + '-' + self.language
+    # Copy the directory tree
+      shutil.copytree(self.source_folder, new_folder_path)
+    # Now, empty the newly copied directories
+      for dirpath, dirnames, filenames in os.walk(new_folder_path):
+        for filename in filenames:
+          file_path = os.path.join(dirpath, filename)
+          os.remove(file_path)
+    
+
+
+
+c = csv_file_translate('/Users/sarathharidas/Desktop/zuni/Batch01', 'swahili')  
+c.create_destination_folder_structure() 
+ 
+
 
 
 # def read_first_row(csv_file):
