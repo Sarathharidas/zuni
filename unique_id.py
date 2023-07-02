@@ -2,13 +2,14 @@ import os
 import pandas as pd
 
 # root directory
-root_dir = '/Users/sarathharidas/Desktop/zuni test/Batch01-Afrikaans/Chitchats'
-new_file_path = '/Users/sarathharidas/Desktop/zuni test/Database/afrikaans.csv'
+root_dir = '/Users/sarathharidas/Desktop/zuni/Translation work/'
+new_file_path = '/Users/sarathharidas/Desktop/zuni/Translation work/Database_afrikaans.csv'
 
 # function to add unique identifier to a DataFrame
 def add_unique_id(df, file_path):
     relative_path = os.path.relpath(file_path, root_dir)
     relative_path = relative_path.replace('/', '_').replace('\\', '_')
+    print(relative_path)
     df['unique_id'] = [f"{relative_path}_line{i}" for i in range(len(df))]
     return df
 
@@ -47,10 +48,11 @@ for dirpath, dirs, files in os.walk(root_dir):
             # Check if the file exists
             if os.path.isfile(new_file_path):
                 # If the file exists, append without writing the header
-                df.iloc[:, [df.columns.get_loc('unique_id'), 2,3,4 ]].to_csv(new_file_path, mode='a', header=False, index=False)
+                df.iloc[:, [df.columns.get_loc('unique_id'), 0,1,2 ]].to_csv(new_file_path, mode='a', header=False, index=False)
+            
             else:
                 # If the file does not exist, write the DataFrame with a header
-                df.iloc[:, [df.columns.get_loc('unique_id'), 2,3,4 ]].to_csv(new_file_path, mode='w', index=False)
+                df.iloc[:, [df.columns.get_loc('unique_id'), 0,1,2 ]].to_csv(new_file_path, mode='w', index=False)
 
             #print(f'Updated {file_path} with unique identifiers.')
             
