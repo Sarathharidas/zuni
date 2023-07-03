@@ -61,19 +61,23 @@ class csv_file_translate:
             new_path = os.path.join(root.replace(self.source_folder, new_folder), file_name)
             print(new_path)  
             # If it's a CSV file, call the translate function
-            if file_name.lower().endswith('.csv'):
-                try:
-                    self.translate(original_path, new_path)
-                    time_2 = datetime.datetime.now()
-                    print(f"time taken is {time_2-time_1}")
-                except:
-                   txt_path = os.path.join(self.source_folder, 'error.txt')
-                   with open(txt_path, 'w') as file:
-                      file.write(file_name)
-                      
+            if os.path.isfile(new_path):
+               print(f'{new_path} file exists')
             else:
-                # Otherwise, copy the file as it is
-                shutil.copyfile(original_path, new_path)
+
+              if file_name.lower().endswith('.csv'):
+                  try:
+                      self.translate(original_path, new_path)
+                      time_2 = datetime.datetime.now()
+                      print(f"time taken is {time_2-time_1}")
+                  except:
+                    txt_path = os.path.join(self.source_folder, 'error.txt')
+                    with open(txt_path, 'a') as file:
+                        file.write(file_name)
+                        
+              else:
+                  # Otherwise, copy the file as it is
+                  shutil.copyfile(original_path, new_path)
     
     def translate(self, original_file, new_file):
 
@@ -238,11 +242,13 @@ class csv_file_translate:
 
 ### For each language-Batch combination. This will do for all csv files
 
-for l in ['afrikaans']:
+for l in ['zulu', 'afrikaans', 'swahili']:
   
   base_directory = '/Users/sarathharidas/Desktop/zuni/Translation_full_file'
-  folders = ['Batch05' ]
+  folders = ['Batch02']
+  
   for folder in folders:
+    print("Starting Batch {folder}")
     now_time = datetime.datetime.now()
     print(now_time)
     print(folder, l)
@@ -251,8 +257,6 @@ for l in ['afrikaans']:
     l_batch_n_class = csv_file_translate(file_path, l, df_glossary, 'quicktranslates')
     l_batch_n_class.recreate_folder_with_translation()
     
-
-
 
 ### For xls files
 

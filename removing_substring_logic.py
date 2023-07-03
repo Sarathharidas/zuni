@@ -23,18 +23,16 @@ def process_translate_string(input_str, glossary):
     
     def glossary_replace(string, glossary):
         matched_items = []
-        for key in dictionary:
+        for key in glossary:
             if key in string:
                 string = string.replace(key, "||")
                 matched_items.append(key)
         return string, matched_items
     
-    print(temp_str)
     # Translate string
   
 
     # Replace placeholders with original matches and glossary replacements
-    all_replacements = matches + glossary_matches
    # print(placeholder)
     final_str = re.sub(placeholder, lambda x: all_replacements.pop(0), temp_str)
     print(final_str)

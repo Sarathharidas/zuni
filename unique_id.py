@@ -44,7 +44,6 @@ for dirpath, dirs, files in os.walk(root_dir):
             # save the DataFrame back to the CSV file
             print(df.columns)
 
-
             # Check if the file exists
             if os.path.isfile(new_file_path):
                 # If the file exists, append without writing the header
